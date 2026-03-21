@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Geist_Mono } from "next/font/google";
+import { Space_Grotesk, Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -8,15 +8,15 @@ const spaceGrotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const beVietnamPro = Be_Vietnam_Pro({
+  variable: "--font-be-vietnam-pro",
   subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
-  title: "AWS Cloud Club MAIT — Learn, Build, Deploy",
-  description:
-    "AWS Cloud Club at Maharaja Agrasen Institute of Technology. Join our community to learn cloud computing, build real-world projects, and deploy on AWS.",
+  title: "AWS Cloud Clubs MAIT | Join the Cloud Raid",
+  description: "AWS Cloud Club at Maharaja Agrasen Institute of Technology. Join our community to learn cloud computing, build real-world projects, and deploy on AWS.",
   keywords: ["AWS", "Cloud Club", "MAIT", "Cloud Computing", "AWS Community"],
 };
 
@@ -28,9 +28,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${geistMono.variable} dark antialiased`}
+      className={`light ${spaceGrotesk.variable} ${beVietnamPro.variable}`}
     >
-      <body className="min-h-screen flex flex-col bg-background text-foreground">
+      <head>
+        {/* Material Symbols */}
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+      </head>
+      <body className="font-body selection:bg-primary-container selection:text-on-primary-container min-h-screen">
         {children}
       </body>
     </html>
