@@ -1,4 +1,4 @@
-type TeamMember = {
+export type TeamMember = {
   name: string;
   role: string;
   imageSrc?: string;
@@ -41,7 +41,6 @@ export default function TeamCard2D({
           "
         >
           {member.imageSrc ? (
-            // Using <img> keeps it simple; you can switch to next/image later if desired.
             <img
               src={member.imageSrc}
               alt={member.name}
@@ -62,9 +61,7 @@ export default function TeamCard2D({
           {member.name}
         </h3>
 
-        <p className="mt-2 text-sm font-semibold text-primary">
-          {member.role}
-        </p>
+        <p className="mt-2 text-sm font-semibold text-primary">{member.role}</p>
 
         <div className="mt-auto pt-8 text-xs font-bold text-on-surface-variant">
           Click to cycle →

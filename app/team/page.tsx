@@ -3,44 +3,58 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import TeamCard2D from "@/components/TeamCard2D";
-
-const members = [
-  { name: "John Doe", role: "Designer", imageSrc: "/placeholders/member-1.png" },
-  { name: "Jane Smith", role: "Developer", imageSrc: "/placeholders/member-2.png" },
-  { name: "Alice Johnson", role: "Manager", imageSrc: "/placeholders/member-3.png" },
-  { name: "Bob Brown", role: "Analyst", imageSrc: "/placeholders/member-4.png" },
-];
+import TeamCardsView from "@/components/TeamCard";
+import TeamGridView from "@/components/TeamGridview";
 
 export default function TeamPage() {
-  const [currentMember, setCurrentMember] = useState(0);
+  const [view, setView] = useState<"cards" | "grid">("cards");
 
   return (
     <>
       <Navbar />
       <main className="pt-24">
         <section className="mx-auto max-w-7xl px-6 py-16">
-          <h1 className="font-headline text-4xl font-black text-on-primary-container">
-            Meet the Team
-          </h1>
-          <p className="mt-3 max-w-2xl text-on-surface-variant">
-            Click the center card to cycle through members.
-          </p>
-
-          <div className="mt-12 grid items-center gap-8 md:grid-cols-3">
-            {/* Left “back” card */}
-            <div className="hidden md:block h-[420px] rounded-[28px] bg-surface-container-lowest border border-surface-variant shadow-lg" />
-
-            {/* Center clickable card */}
-            <div className="flex justify-center">
-              <TeamCard2D
-                member={members[currentMember]}
-                onClick={() => setCurrentMember((i) => (i + 1) % members.length)}
-              />
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h1 className="font-headline text-4xl font-black text-on-primary-container">
+                Meet the Team
+              </h1>
+              <p className="mt-3 max-w-2xl text-on-surface-variant">
+                Switch between the interactive card deck and the full team grid.
+              </p>
             </div>
 
-            {/* Right “back” card */}
-            <div className="hidden md:block h-[420px] rounded-[28px] bg-surface-container-lowest border border-surface-variant shadow-lg" />
+            {/* Switch */}
+            <div className="inline-flex rounded-full border border-surface-variant bg-surface-container-lowest p-1 shadow-sm">
+              <button
+                type="button"
+                onClick={() => setView("cards")}
+                className={[
+                  "px-5 py-2 text-sm font-bold font-headline rounded-full transition-colors",
+                  view === "cards"
+                    ? "bg-primary-container text-on-primary-container"
+                    : "text-on-surface-variant hover:text-primary",
+                ].join(" ")}
+              >
+                Cards
+              </button>
+              <button
+                type="button"
+                onClick={() => setView("grid")}
+                className={[
+                  "px-5 py-2 text-sm font-bold font-headline rounded-full transition-colors",
+                  view === "grid"
+                    ? "bg-primary-container text-on-primary-container"
+                    : "text-on-surface-variant hover:text-primary",
+                ].join(" ")}
+              >
+                Grid
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-10">
+            {view === "cards" ? <TeamCardsView /> : <TeamGridView />}
           </div>
         </section>
       </main>
