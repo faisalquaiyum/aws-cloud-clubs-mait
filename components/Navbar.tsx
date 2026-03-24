@@ -27,6 +27,7 @@ export default function Navbar() {
           </span>
         </Link>
       </div>
+
       <nav className="hidden md:flex items-center gap-8">
         {NAV_LINKS.map((link) => {
           const isActive = pathname === link.href;
@@ -45,6 +46,7 @@ export default function Navbar() {
           );
         })}
       </nav>
+
       <button className="bg-primary text-on-primary px-8 py-3 rounded-full font-headline font-bold hover:scale-105 active:scale-95 transition-all duration-200 pixel-hard-shadow border-2 border-on-primary-fixed">
         Join Us
       </button>
