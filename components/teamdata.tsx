@@ -88,10 +88,10 @@ export const teamMembers: TeamMember[] = [
   { id: 2, name: "Shubham Jha", role: "Vice President", group: "core" },
   { id: 3, name: "Yatin Kumar", role: "Secretary", group: "core" },
 
-  { id: 4, name: "Pari Goel", role: "PR Head", group: "Public Relations" },
-  { id: 5, name: "Ridhi Garg", role: "Event Head", group: "Event Management" },
-  { id: 6, name: "Sharvi Aggarwal", role: "Social Media Head", group: "Social Media & Photography" },
-  { id: 7, name: "Kushneet", role: "Content", group: "Content" },
+  { id: 4, name: "Pari Goel", role: "Joint Secretary", group: "Public Relations" },
+  { id: 5, name: "Ridhi Garg", role: "Secretary", group: "Event Management" },
+  { id: 6, name: "Sharvi Aggarwal", role: "Joint Secretary", group: "Social Media & Photography" },
+  { id: 7, name: "Kushneet", role: "Cloud Captain", group: "Content" },
 
   { id: 9, name: "Rishu", role: "Event Management", group: "Event Management" },
   { id: 10, name: "Aryan Gupta", role: "Event Management", group: "Event Management" },
