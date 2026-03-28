@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function CTA() {
   return (
     <section className="py-24 px-6">
@@ -14,10 +16,10 @@ export default function CTA() {
           THE CLOUD IS <br /> CALLING.
         </h2>
         <p className="text-xl text-on-surface-variant mb-12 max-w-xl mx-auto border-2 border-transparent">
-          Don't stay on the ground. Upgrade your dev-stack and join the most active club on campus.
+          Explore our recent events and initiatives.
         </p>
         <button className="bg-primary text-on-primary px-16 py-8 rounded-full font-headline text-2xl font-black pixel-hard-shadow hover:scale-105 active:scale-95 transition-all border-2 border-on-primary-fixed">
-          JOIN THE CLUB
+          <Link href="https://www.meetup.com/aws-cloud-club-at-maharaja-agrasen-inst-of-technology/" target="_blank">JOIN THE CLUB</Link>
         </button>
       </div>
     </section>

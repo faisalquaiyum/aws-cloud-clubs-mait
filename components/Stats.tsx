@@ -9,19 +9,19 @@ export default function Stats() {
             </div>
             <h3 className="text-4xl font-headline font-black mb-4">READY FOR LIFT OFF?</h3>
             <p className="text-lg opacity-90 max-w-sm">
-              Join over 500+ students from MAIT exploring the vast cloud stratosphere.
+              Join over 50+ students from MAIT exploring the vast cloud stratosphere.
             </p>
           </div>
           <div className="bg-tertiary-container p-8 rounded-[2rem] flex flex-col items-center justify-center text-center">
-            <span className="text-6xl font-headline font-black text-on-tertiary-container">50+</span>
+            <span className="text-6xl font-headline font-black text-on-tertiary-container">--</span>
             <span className="font-label uppercase font-bold text-on-tertiary-container mt-2">Workshops</span>
           </div>
           <div className="bg-secondary-container p-8 rounded-[2rem] flex flex-col items-center justify-center text-center">
-            <span className="text-6xl font-headline font-black text-on-secondary-container">10+</span>
+            <span className="text-6xl font-headline font-black text-on-secondary-container">--</span>
             <span className="font-label uppercase font-bold text-on-secondary-container mt-2">Projects</span>
           </div>
           <div className="bg-surface-container-high md:col-span-1 p-8 rounded-[2rem] flex flex-col items-center justify-center text-center">
-            <span className="text-6xl font-headline font-black text-primary">4.9</span>
+            <span className="text-6xl font-headline font-black text-primary">--</span>
             <span className="font-label uppercase font-bold text-on-surface-variant mt-2">Avg Rating</span>
           </div>
           <div className="md:col-span-3 bg-surface-container-highest p-12 rounded-[2rem] flex items-center gap-8">
