@@ -1,67 +1,226 @@
+"use client";
+
+import { useEffect, useRef, useState, useCallback } from "react";
+import Image from "next/image";
+
+const slides = [
+  {
+    image: "/slide-partnership.png",
+    title: "AWS × MAIT Partnership",
+    subtitle: "Faculty & Team Collaboration",
+  },
+  {
+    image: "/slide-campus.png",
+    title: "MAIT Campus",
+    subtitle: "Our Learning Hub",
+  },
+  {
+    image: "/slide-workshop.png",
+    title: "AWS Workshop 2024",
+    subtitle: "Cloud Computing Event",
+  },
+  {
+    image: "/slide-hackathon.png",
+    title: "AWS PartyRock Hackathon",
+    subtitle: "Build & Innovate",
+  },
+];
+
 export default function Modules() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  // Total slides including duplicates for seamless loop
+  const extendedSlides = [...slides, ...slides, ...slides];
+
+  const startAutoPlay = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setCurrentIndex((prev) => prev + 1);
+    }, 3000);
+  }, []);
+
+  const stopAutoPlay = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    startAutoPlay();
+    return () => stopAutoPlay();
+  }, [startAutoPlay, stopAutoPlay]);
+
+  // Reset position seamlessly when reaching end of second set
+  useEffect(() => {
+    if (currentIndex >= slides.length * 2) {
+      const timeout = setTimeout(() => {
+        if (trackRef.current) {
+          trackRef.current.style.transition = "none";
+          setCurrentIndex(currentIndex - slides.length);
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              if (trackRef.current) {
+                trackRef.current.style.transition =
+                  "transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+              }
+            });
+          });
+        }
+      }, 700);
+      return () => clearTimeout(timeout);
+    }
+  }, [currentIndex]);
+
+  const goToSlide = (direction: "prev" | "next") => {
+    stopAutoPlay();
+    setCurrentIndex((prev) =>
+      direction === "next" ? prev + 1 : Math.max(prev - 1, 0)
+    );
+    startAutoPlay();
+  };
+
+  // Each card width + gap (percentage-based for responsiveness)
+  const [cardWidthPercent, setCardWidthPercent] = useState(30);
+  const gapPercent = 2;
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setCardWidthPercent(85); // Mobile width
+      } else if (window.innerWidth < 1024) {
+        setCardWidthPercent(45); // Tablet width
+      } else {
+        setCardWidthPercent(30); // Desktop width
+      }
+    };
+    handleResize(); // Initial set
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <section className="py-24 bg-surface-container-low">
-      <div className="container max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+    <section className="py-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
           <div className="max-w-2xl">
-            <h2 className="text-4xl md:text-5xl font-headline font-extrabold mb-4">EXPAND YOUR ARSENAL</h2>
-            <p className="text-lg text-on-surface-variant">
-              The tools, the community, and the knowledge you need to master the AWS infrastructure.
+            <h2 className="font-label text-xs font-bold tracking-[0.15rem] uppercase mb-3 text-secondary">
+              What We Do
+            </h2>
+            <h2 className="text-4xl md:text-5xl font-headline font-extrabold mb-4 text-on-surface">
+              EXPAND YOUR ARSENAL
+            </h2>
+            <p className="text-lg leading-relaxed text-on-surface-variant">
+              The tools, the community, and the knowledge you need to master
+              the AWS infrastructure.
             </p>
           </div>
-          <div className="flex gap-4">
-            <button className="w-12 h-12 rounded-full border-2 border-outline-variant flex items-center justify-center hover:bg-primary-container hover:text-white transition-all">
+          <div className="flex gap-3">
+            <button
+              onClick={() => goToSlide("prev")}
+              className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 bg-surface-container-highest border border-outline-variant text-on-surface hover:bg-primary hover:text-on-primary shadow-sm hover:shadow"
+              aria-label="Previous slide"
+            >
               <span className="material-symbols-outlined">arrow_back</span>
             </button>
-            <button className="w-12 h-12 rounded-full border-2 border-outline-variant flex items-center justify-center hover:bg-primary-container hover:text-white transition-all">
+            <button
+              onClick={() => goToSlide("next")}
+              className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 bg-surface-container-highest border border-outline-variant text-on-surface hover:bg-primary hover:text-on-primary shadow-sm hover:shadow"
+              aria-label="Next slide"
+            >
               <span className="material-symbols-outlined">arrow_forward</span>
             </button>
           </div>
         </div>
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* Card 1 */}
-          <div className="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-shadow group relative overflow-hidden">
-            <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary-container/10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
-            <div className="mb-8 w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center">
-              <span className="material-symbols-outlined text-4xl text-primary">groups</span>
-            </div>
-            <h3 className="text-2xl font-headline font-bold mb-4">Student Community Day</h3>
-            <p className="text-on-surface-variant leading-relaxed mb-6">
-              Connect with fellow cloud enthusiasts and industry leaders in our massive annual gathering.
-            </p>
-            <a className="inline-flex items-center text-primary font-bold gap-2 group-hover:gap-4 transition-all" href="#">
-              Learn More <span className="material-symbols-outlined">trending_flat</span>
-            </a>
-          </div>
-          {/* Card 2 */}
-          <div className="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-shadow group relative overflow-hidden">
-            <div className="absolute -top-10 -right-10 w-32 h-32 bg-secondary-container/10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
-            <div className="mb-8 w-20 h-20 bg-sky-100 rounded-2xl flex items-center justify-center">
-              <span className="material-symbols-outlined text-4xl text-secondary">school</span>
-            </div>
-            <h3 className="text-2xl font-headline font-bold mb-4">Cloud Workshops</h3>
-            <p className="text-on-surface-variant leading-relaxed mb-6">
-              Hands-on sessions where we dive deep into S3, EC2, and the vast AWS ecosystem.
-            </p>
-            <a className="inline-flex items-center text-primary font-bold gap-2 group-hover:gap-4 transition-all" href="#">
-              See Curriculum <span className="material-symbols-outlined">trending_flat</span>
-            </a>
-          </div>
-          {/* Card 3 */}
-          <div className="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-shadow group relative overflow-hidden">
-            <div className="absolute -top-10 -right-10 w-32 h-32 bg-tertiary-container/10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
-            <div className="mb-8 w-20 h-20 bg-yellow-50 rounded-2xl flex items-center justify-center">
-              <span className="material-symbols-outlined text-4xl text-tertiary">podcasts</span>
-            </div>
-            <h3 className="text-2xl font-headline font-bold mb-4">Tech Talks</h3>
-            <p className="text-on-surface-variant leading-relaxed mb-6">
-              Insightful conversations with architects building the next generation of web apps.
-            </p>
-            <a className="inline-flex items-center text-primary font-bold gap-2 group-hover:gap-4 transition-all" href="#">
-              Watch Sessions <span className="material-symbols-outlined">trending_flat</span>
-            </a>
-          </div>
+
+        {/* Progress Dots */}
+
+      </div>
+
+      {/* Carousel Track */}
+      <div
+        className="relative"
+        onMouseEnter={() => {
+          setIsHovered(true);
+          stopAutoPlay();
+        }}
+        onMouseLeave={() => {
+          setIsHovered(false);
+          startAutoPlay();
+        }}
+      >
+        <div
+          ref={trackRef}
+          className="flex"
+          style={{
+            gap: `${gapPercent}vw`,
+            paddingLeft: "6vw",
+            transform: `translateX(-${currentIndex * (cardWidthPercent + gapPercent)}vw)`,
+            transition:
+              "transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          }}
+        >
+          {extendedSlides.map((slide, index) => {
+            const isActive =
+              index % slides.length === currentIndex % slides.length;
+            return (
+              <div
+                key={index}
+                className="relative flex-shrink-0 rounded-2xl overflow-hidden group cursor-pointer"
+                style={{
+                  width: `${cardWidthPercent}vw`,
+                  aspectRatio: "4/3",
+                  minHeight: "280px",
+                  maxHeight: "420px",
+                  transition: "transform 0.5s ease",
+                  transform: isActive ? "scale(1)" : "scale(0.96)",
+                  opacity: 1,
+                }}
+              >
+                {/* Background Image */}
+                <Image
+                  src={slide.image}
+                  alt={slide.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  sizes="30vw"
+                />
+
+                {/* Content */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 z-10 bg-gradient-to-t from-black/50 to-transparent">
+                  <h3
+                    className="text-xl md:text-2xl font-headline font-bold mb-1 drop-shadow-md"
+                    style={{ color: "#ffffff" }}
+                  >
+                    {slide.title}
+                  </h3>
+                  <p
+                    className="text-sm font-body drop-shadow-md"
+                    style={{ color: "rgba(255, 255, 255, 0.9)" }}
+                  >
+                    {slide.subtitle}
+                  </p>
+                </div>
+
+                {/* Top-right active indicator */}
+                {isActive && (
+                  <div
+                    className="absolute top-4 right-4 w-2 h-2 rounded-full"
+                    style={{
+                      background: "var(--color-primary)",
+                      boxShadow: "0 0 8px var(--color-primary-fixed-dim)",
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
+
       </div>
     </section>
   );
